@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class QuizApp {
+    private List<Question> questions;
+    private int score;
+
+    public QuizApp() {
+        questions = new ArrayList<>();
+        score = 0;
+        loadQuestions();
+    }
+
+    private void loadQuestions() {
+        questions.add(new Question("What is the capital of France?", Arrays.asList("Paris", "London", "Berlin", "Madrid"), "Paris"));
+        questions.add(new Question("What is 2 + 2?", Arrays.asList("3", "4", "5", "6"), "4"));
+        // Add more questions as needed
+    }
+
+    public void startQuiz() {
+        Scanner scanner = new Scanner(System.in);
+        for (Question question : questions) {
+            System.out.println(question.getQuestionText());
+            List<String> options = question.getOptions();
+            for (int i = 0; i < options.size(); i++) {
+                System.out.println((i + 1) + ". " + options.get(i));
+            }
+            System.out.print("Your answer: ");
+            int answerIndex = scanner.nextInt() - 1;
+            String userAnswer = options.get(answerIndex);
+
+            if (question.isCorrect(userAnswer)) {
+                System.out.println("Correct!");
+                score++;
+            } else {
+                System.out.println("Wrong! The correct answer is " + question.getCorrectAnswer());
+            }
+        }
+        System.out.println("Quiz finished! Your total score is " + score + "/" + questions.size());
+    }
+
+    public static void main(String[] args) {
+        QuizApp quizApp = new QuizApp();
+        quizApp.startQuiz();
+    }
+}
